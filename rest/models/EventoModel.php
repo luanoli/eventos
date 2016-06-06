@@ -7,7 +7,12 @@ use Libs\Database\Db;
 class Evento {
 
     public static function getAll(){
-        $sql = "SELECT * FROM eventos";
+        $sql = " SELECT "; 
+        $sql .= " eventos.id, eventos.nome, eventos.organizador, eventos.data_realizacao, " ;
+        $sql .= " eventos.descricao, eventos.publicado, eventos.lotacao_maxima, tipos.nome as tipo ";
+        $sql .= " FROM eventos "; 
+        $sql .= " LEFT JOIN tipos ON eventos.id_tipo = tipos.id ";
+        
         return Db::select($sql);
     }
 
@@ -17,13 +22,16 @@ class Evento {
     }
 
     public static function insert($evento){
+
+        print_r($evento);
+
         $sql = "INSERT INTO eventos (nome, data_realizacao, organizador, descricao, lotacao_maxima, id_tipo, publicado) VALUES ('" .
         $evento['nome'] . "', '" .
         $evento['data_realizacao'] . "', '" .
-        $evento['organizacao'] . "', '" .
+        $evento['organizador'] . "', '" .
         $evento['descricao'] . "', '" .
         $evento['lotacao_maxima'] . "', " .
-        $evento['id_tipo'] . "', " .
+        $evento['id_tipo'] . ", " .
         $evento['publicado'] . ")";
 
         Db::execute($sql);
@@ -34,7 +42,7 @@ class Evento {
         $sql = "UPDATE eventos SET " .
                 "nome = '" . $evento->nome . "', " .
                 "data_realizacao = '" . $evento->data_realizacao . "', " .
-                "organizacao = '" . $evento->organizacao . "', " .
+                "organizador = '" . $evento->organizador . "', " .
                 "descricao = '" . $evento->descricao . "', " .
                 "lotacao_maxima = '" . $evento->lotacao_maxima . "', " .
                 "id_tipo = " . $evento->id_tipo . ", " .

@@ -33,7 +33,7 @@ class Db {
         if(self::$db == null){
             self::connect();
         }
-
+        print_r($sql);
         return self::$db->query($sql);
     }
 

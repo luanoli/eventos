@@ -5,7 +5,7 @@
 
         api.eventos.list().success(function(data){
             $scope.eventos = data;
-        });
+        });        
 
         $scope.insert = function(evento){
             $location.path('/eventos/insert');
@@ -36,19 +36,33 @@
         };
     }]);
 
-    angular.module('app.controllers').controller('EventoFormController', ['$scope', 'api', '$location', '$routeParams',
-        function($scope, api, $location, $routeParams){
+    angular.module('app.controllers').controller('EventoFormController', 
+        ['$scope', 'api', '$location', '$routeParams',
+            function($scope, api, $location, $routeParams){
 
             $scope.idEvento = $routeParams.idEvento;
+
+            $scope.hoje = new Date();
+            //$scope.hoje = (new Date()).format("MM-dd-yyyy");
+
+
+
+
+
+            api.tipos.list().success(function(data){
+                $scope.tipos = data;
+            });
 
             if ( $scope.idEvento != null && $scope.idEvento > 0 ){
                 $scope.title = "Editar Evento";
                 api.eventos.get($scope.idEvento).success(function(data){
-                    //data.valor_inscricao = data.valor_inscricao * 1;
-                    //temp_data = data.data;
-                    //dt = temp_data.split("-");
-                    //dt[1] = dt[1] - 1;
-                    //data.data = new Date(dt[0],dt[1],dt[2]);
+                    data.lotacao_maxima = data.lotacao_maxima * 1;
+
+                    temp_data = data.data_realizacao;
+                    dt = temp_data.split("-");
+                    dt[1] = dt[1] - 1;
+                    data.data_realizacao = new Date(dt[0],dt[1],dt[2]);
+
                     $scope.evento = data;
                 });
                 $scope.save = function(){

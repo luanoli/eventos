@@ -35,12 +35,12 @@
         </tr>
         <tr ng-repeat="evento in eventos | filter:search">
             <td ng-bind="evento.nome"></td>
-            <td ng-bind="evento.data_realizacao"></td>
+            <td ng-bind="evento.data_realizacao | datapt"></td>
             <td ng-bind="evento.organizador"></td>
             <td ng-bind="evento.descricao"></td>
             <td ng-bind="evento.lotacao_maxima"></td>
             <td ng-bind="evento.tipo"></td>
-            <td ng-bind="evento.publicado"></td>
+            <td ng-bind="evento.publicado | ativo"></td>
             <td >
                 <button class="btn btn-sm btn-primary" ng-click="update(evento)">
                     <i class="fa fa-lg fa-pencil"></i>

@@ -11,5 +11,7 @@ $app = new \Slim\Slim();
 
 include("libs/database.php");
 include("./routes/EventoService.php");
+include("./routes/TipoService.php");
+include("./routes/ClienteEventoService.php");
 
 $app->run();

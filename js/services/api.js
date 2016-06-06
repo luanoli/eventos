@@ -20,6 +20,11 @@
                     return $http.delete('rest/eventos/' + id);
                 }
             },
+            tipos: {
+                list: function(){
+                    return $http.get('rest/tipos');
+                }
+            }
         };
     }]);
 
