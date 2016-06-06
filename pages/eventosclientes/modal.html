@@ -1,0 +1,25 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Ingresso</h4>
+    </div>
+    <div class="modal-body">
+
+        <form name="form" ng-show="ok">
+            <div class="form-group has-feedback">
+                <label class="control-label">Informe o CPF</label>
+                <div class="controls">
+                    <input type="text" name="cpf" class="form-control" ng-model="obj.cpf" placeholder="Informe o CPF" required>
+                    <small class="has-error help-block" ng-show="form.cpf.$error.required && form.cpf.$dirty">Obrigatório</small>
+                </div>
+            </div>
+        </form>
+
+        <p ng-show="!ok">Código do ingresso: {{codigo}}</p>
+
+    </div>
+    <div class="modal-footer">
+        <button ng-show="ok" ng-disabled="form.$invalid" type="button" class="btn btn-sm btn-success" ng-click="confirmar()">Confirmar</button>
+        <button ng-show="ok" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+        <button ng-show="!ok" class="btn btn-success" ng-click="fechar()">Fechar</button>
+    </div>
+</div>

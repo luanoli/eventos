@@ -1,0 +1,39 @@
+<div class="col-md-12">
+
+    <div class="page-header">
+        <h3>Eventos publicados</h3>
+    </div>
+
+    <div class="panel panel-primary" ng-repeat="ec in eventosClientes">
+        <div class="panel-heading">
+            <h3 class="panel-title" ng-bind="ec.data | datapt"></h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Organizador</th>
+                        <th>Tipo de Evento</th>
+                        <th style="width:105px;">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="evento in ec.eventos">
+                        <td ng-bind="evento.nome"></td>
+                        <td ng-bind="evento.organizador"></td>
+                        <td ng-bind="evento.tipo"></td>
+                        <td >
+                            <button class="btn btn-sm btn-primary" ng-click="detalhar(evento)">Detalhes</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

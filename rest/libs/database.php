@@ -33,8 +33,9 @@ class Db {
         if(self::$db == null){
             self::connect();
         }
-        print_r($sql);
-        return self::$db->query($sql);
+
+        self::$db->query($sql);
+        return self::$db->lastInsertId();
     }
 
     public static function select($sql, $seletor = null){

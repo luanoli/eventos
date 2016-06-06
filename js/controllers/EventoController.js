@@ -43,11 +43,6 @@
             $scope.idEvento = $routeParams.idEvento;
 
             $scope.hoje = new Date();
-            //$scope.hoje = (new Date()).format("MM-dd-yyyy");
-
-
-
-
 
             api.tipos.list().success(function(data){
                 $scope.tipos = data;
@@ -69,6 +64,7 @@
                     api.eventos.update($scope.evento).success(function(){
                         $location.path('/eventos');
                     }).error(function(data, headers, status){
+                        $location.path('/eventos');
                         console.log(headers + status);
                 });
             };
@@ -80,6 +76,7 @@
                 api.eventos.insert($scope.evento).success(function(){
                     $location.path('/eventos');
                 }).error(function(data, headers, status){
+                    $location.path('/eventos');
                     console.log(headers + status);
                 });
             };

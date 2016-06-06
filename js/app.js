@@ -20,6 +20,14 @@
             controller: 'EventoFormController'
         })
 
+        .when('/eventosclientes',{
+            templateUrl: 'pages/eventosclientes/list.html',
+            controller: 'EventoClienteController'
+        }).when('/eventosclientes/:idEvento',{
+            templateUrl: 'pages/eventosclientes/detail.html',
+            controller: 'EventoClienteDetalhesController'
+        })
+
         .otherwise({redirectTo: '/eventos'});
 
 

@@ -12,8 +12,28 @@ class Evento {
         $sql .= " eventos.descricao, eventos.publicado, eventos.lotacao_maxima, tipos.nome as tipo ";
         $sql .= " FROM eventos "; 
         $sql .= " LEFT JOIN tipos ON eventos.id_tipo = tipos.id ";
+        $sql .= " ORDER BY eventos.data_realizacao ";
         
-        return Db::select($sql);
+        $lista = Db::select($sql);
+
+        $eventos = array();
+
+        foreach($lista as $e){
+
+            $evento = array();
+            $evento['id'] = $e->id;
+            $evento['nome'] = $e->nome;
+            $evento['organizador'] = $e->organizador;
+            $evento['data_realizacao'] = $e->data_realizacao;
+            $evento['descricao'] = $e->descricao;
+            $evento['publicado'] = $e->publicado ? 'Sim' : 'Não';
+            $evento['lotacao_maxima'] = $e->lotacao_maxima;
+            $evento['tipo'] = $e->tipo;
+
+            $eventos[] = $evento;
+        }
+
+        return $eventos;
     }
 
     public static function getById($id){
@@ -35,6 +55,8 @@ class Evento {
         $evento['publicado'] . ")";
 
         Db::execute($sql);
+
+
     }
 
     public static function update($evento){

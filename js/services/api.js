@@ -20,6 +20,17 @@
                     return $http.delete('rest/eventos/' + id);
                 }
             },
+            eventosClientes: {
+                list: function(){
+                    return $http.get('rest/eventosclientes');
+                },
+                insert: function(evento){
+                    return $http.post('rest/eventosclientes', evento);
+                },
+                get: function(id){
+                    return $http.get('rest/eventosclientes/' + id);
+                },
+            },
             tipos: {
                 list: function(){
                     return $http.get('rest/tipos');

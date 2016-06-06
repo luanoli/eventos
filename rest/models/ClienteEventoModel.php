@@ -13,7 +13,8 @@ class ClienteEvento {
         $sql .= " FROM eventos ";
         $sql .= " LEFT JOIN tipos ON eventos.id_tipo = tipos.id ";
         $sql .= " WHERE eventos.publicado = 1 AND eventos.data_realizacao >= CURDATE() ";
-        $sql .= " AND eventos.lotacao_maxima > (select count(*) from consumidores where consumidores.id_evento = eventos.id )";
+        //$sql .= " AND eventos.lotacao_maxima > (select count(*) from consumidores where consumidores.id_evento = eventos.id ) ";
+        $sql .= " ORDER BY eventos.data_realizacao ";
 
         $lista = Db::select($sql);
 
@@ -38,22 +39,42 @@ class ClienteEvento {
     }
 
     public static function getById($id){
-        $sql = "SELECT * FROM eventos WHERE id = " . $id;
+
+        $sql = " SELECT ";
+        $sql .= " eventos.id, eventos.nome, eventos.organizador, eventos.data_realizacao, " ;
+        $sql .= " eventos.descricao, eventos.lotacao_maxima, tipos.nome as tipo, ";
+        $sql .= " IF(eventos.lotacao_maxima > (select count(*) from consumidores where consumidores.id_evento = eventos.id), true, false) as disponivel ";
+        $sql .= " FROM eventos ";
+        $sql .= " LEFT JOIN tipos ON eventos.id_tipo = tipos.id ";
+        $sql .= " WHERE eventos.id = " . $id . " AND eventos.publicado = 1 AND eventos.data_realizacao >= CURDATE() ";
+
         return Db::selectOne($sql);
     }
 
-    public static function insert($evento){
+    public static function insert($inscricao){
 
-        $evento['codigo'] = md5(uniqid(""));
+        $sql = " SELECT * FROM consumidores WHERE cpf = '" . $inscricao->cpf . "' AND id_evento = " . $inscricao->id_evento;
 
-        print_r($evento['codigo']);
+        $insc = Db::selectOne($sql);
 
-        $sql = "INSERT INTO consumidores (cpf, id_evento, codigo) VALUES ('" .
-        $evento['cpf'] . "', '" .
-        $evento['id_evento'] . "', '" .
-        $evento['codigo'] . "')";
+        if($insc == null){
+            $inscricao->codigo = md5(uniqid(""));
 
-        Db::execute($sql);
+            $sql = "INSERT INTO consumidores (cpf, id_evento, codigo) VALUES ('" .
+            $inscricao->cpf . "', '" .
+            $inscricao->id_evento . "', '" .
+            $inscricao->codigo . "')";
+
+            $idInscricao = Db::execute($sql);
+
+            $sql2 = " SELECT * FROM consumidores WHERE id = " . $idInscricao;
+            $novaInsc = Db::selectOne($sql2);
+
+            return $novaInsc->codigo;
+
+        }else{
+            return $insc->codigo;
+        }
     }
 
 }
